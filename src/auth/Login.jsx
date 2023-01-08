@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Form, Input } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useForm } from 'antd/lib/form/Form';
@@ -26,6 +27,17 @@ const StyledLoginForm = styled(Form)`
 
 export const Login = () => {
   const [form] = useForm();
+  const navigate = useNavigate();
+  const { state } = useLocation();
+
+  const goToRootPage = () => {
+    localStorage.setItem('token', 'token');
+    if (state) {
+      navigate(state);
+    } else {
+      navigate('/');
+    }
+  };
 
   const handleSubmit = (values) => {
     let submitLoginData = {};
@@ -45,12 +57,25 @@ export const Login = () => {
 
     axios({
       method: 'post',
-      url: 'http://localhost:8080/users/login',
+      url: `${process.env.REACT_APP_API_URL}/users/login`,
       data: submitLoginData,
-    }).then((res) => {
-      console.log(res);
-    });
-    form.resetFields();
+    })
+      .then((res) => {
+        const successStatus = res.status;
+        const message = res.data.message;
+        const token = res.data.token;
+
+        if (successStatus === 200) {
+          alert(message);
+          localStorage.setItem('token', token);
+          form.resetFields();
+          goToRootPage();
+        }
+      })
+      .catch((res) => {
+        const errorStatus = res.response.data.details;
+        alert(errorStatus);
+      });
   };
 
   return (
