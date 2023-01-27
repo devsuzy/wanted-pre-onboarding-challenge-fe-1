@@ -36,3 +36,19 @@
 2. 로그인 / 회원 가입 기능은 유저를 DB에 추가하고 JWT 토큰을 응답으로 돌려줄 뿐, 실제 유저별로 Todo 목록을 관계 지어 관리하지는 않습니다. (모든 유저가 하나의 Todo를 가짐)
 
 3. 로그아웃은 클라이언트 단에서 localStorage에 저장된 token을 삭제하는 방식으로 간단히 구현해주세요.
+
+
+## 1단계 할 일 생성하기 / 전체 목록 나타내기
+![스크린샷 2023-01-27 오전 10 07 55](https://user-images.githubusercontent.com/107531556/215000340-2c6b6a68-5513-435a-ba8c-5df09b9972ee.png)
+![스크린샷 2023-01-27 오전 10 08 13](https://user-images.githubusercontent.com/107531556/215000346-d3a948bd-7ae1-4b90-9f1c-b879088bbc1e.png)
+![스크린샷 2023-01-27 오전 10 08 22](https://user-images.githubusercontent.com/107531556/215000350-14a16d4a-a828-4bed-8737-ae4c9297909b.png)
+
+## 2단계 할 일 상세보기
+![스크린샷 2023-01-27 오전 11 56 37](https://user-images.githubusercontent.com/107531556/215000661-e9bcab5d-6cde-4d1d-ab90-087d9b6ef7e8.png)
+
+## 3단계 할 일 수정하기
+![스크린샷 2023-01-27 오전 11 56 53](https://user-images.githubusercontent.com/107531556/215000714-44c32b4f-472c-4269-8597-95bd750e9631.png)
+![스크린샷 2023-01-27 오전 11 57 00](https://user-images.githubusercontent.com/107531556/215000746-2723aa6a-d318-442a-847d-ffa5037d4a6f.png)
+
+## 4단계 할 일 삭제하기
+![스크린샷 2023-01-27 오전 11 57 09](https://user-images.githubusercontent.com/107531556/215000789-f42f7f45-5abd-4d30-bec1-488fcef3e75f.png)
