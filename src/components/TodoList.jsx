@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Button, List } from 'antd';
+import { Button, List, Spin } from 'antd';
 import { MoreOutlined, DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { CreateToDo } from './Modal/CreateTodo';
 import { TodoDetail } from './TodoDetail';
 import styled from 'styled-components';
+import {
+  useTodoState,
+  useTodoDispatch,
+  getToDoList,
+} from '../reducer/TodoContext';
+// import { useAsync } from '../reducer/useAsync';
 
 const StyledTodoList = styled.div`
   .list-btn {
@@ -14,26 +20,22 @@ const StyledTodoList = styled.div`
 `;
 
 export const TodoList = () => {
-  const [data, setData] = useState([]);
+  // const [state, refetch] = useAsync(getToDoList, [saveList]);
+  const state = useTodoState();
+  const dispatch = useTodoDispatch();
   const [showModal, setShowModal] = useState(false);
   const [showDrawer, setShowDrawer] = useState(false);
   const [saveList, setSaveList] = useState(false);
 
+  const { data, loading, error } = state.todo;
+
   useEffect(() => {
-    const getToDoList = () => {
-      axios({
-        method: 'get',
-        url: `${process.env.REACT_APP_API_URL}/todos`,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }).then((res) => {
-        const listData = res.data.data;
-        setData(listData);
-      });
-    };
-    getToDoList();
+    getToDoList(dispatch);
   }, [saveList]);
+
+  if (loading) return <Spin />;
+  if (error) return <div>에러가 발생했습니다.</div>;
+  if (!data) return null;
 
   const onModalClose = () => {
     setShowModal(false);
@@ -57,7 +59,7 @@ export const TodoList = () => {
       content,
       id,
     };
-    setData([...data, createItem]);
+    dispatch({ type: 'SUCCESS', data: [...data, createItem] });
   };
 
   const onDeleteToDo = (targetId) => {
